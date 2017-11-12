@@ -10,6 +10,7 @@ def grpc_java_repositories(
     omit_com_google_protobuf=False,
     omit_com_google_protobuf_java=False,
     omit_com_google_protobuf_nano_protobuf_javanano=False,
+    omit_com_google_truth=False,
     omit_com_squareup_okhttp=False,
     omit_com_squareup_okio=False,
     omit_io_netty_buffer=False,
@@ -23,7 +24,8 @@ def grpc_java_repositories(
     omit_io_netty_handler_proxy=False,
     omit_io_netty_resolver=False,
     omit_io_netty_tcnative_boringssl_static=False,
-    omit_io_opencensus_api=False):
+    omit_io_opencensus_api=False,
+    omit_junit=False):
   """Imports dependencies for grpc-java."""
   if not omit_com_google_api_grpc_google_common_protos:
     com_google_api_grpc_google_common_protos()
@@ -43,6 +45,8 @@ def grpc_java_repositories(
     com_google_protobuf_java()
   if not omit_com_google_protobuf_nano_protobuf_javanano:
     com_google_protobuf_nano_protobuf_javanano()
+  if not omit_com_google_truth:
+    com_google_truth()
   if not omit_com_squareup_okhttp:
     com_squareup_okhttp()
   if not omit_com_squareup_okio:
@@ -71,6 +75,8 @@ def grpc_java_repositories(
     io_netty_tcnative_boringssl_static()
   if not omit_io_opencensus_api:
     io_opencensus_api()
+  if not omit_junit:
+    junit()
   native.bind(
     name = "guava",
     actual = "@com_google_guava_guava//jar",
@@ -148,6 +154,13 @@ def com_google_protobuf_nano_protobuf_javanano():
       name = "com_google_protobuf_nano_protobuf_javanano",
       artifact = "com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-5",
       sha1 = "357e60f95cebb87c72151e49ba1f570d899734f8",
+  )
+
+def com_google_truth():
+  native.maven_jar(
+      name = "com_google_truth",
+      artifact = "com.google.truth:truth:0.36",
+      sha1 = "7485219d2c1d341097a19382c02bde07e69ff5d2",
   )
 
 def com_squareup_okhttp():
@@ -246,4 +259,11 @@ def io_opencensus_api():
       name = "io_opencensus_opencensus_api",
       artifact = "io.opencensus:opencensus-api:0.7.0",
       sha1 = "bf69d604c0dfcf63356053828a90c3e332acd2b8",
+  )
+
+def junit():
+  native.maven_jar(
+      name = "junit",
+      artifact = "junit:junit:4.12",
+      sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
   )
